@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:cbt_application/models/thought_entry.dart';
+
+// this acts as a temporary in-memory store for thought entries
+// in a real app, this would be replaced with persistent storage  like a database or file system  
+
+List<ThoughtEntry> entries = [];
 
 void main() {
   runApp(const MyApp());
@@ -69,10 +75,30 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Past Entries')),
-      body: const Center(child: Text('History Screen Placeholder')),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+          columns: const [
+            DataColumn(label: Text('Time')),
+            DataColumn(label: Text('Thought')),
+            DataColumn(label: Text('Distortions')),
+            DataColumn(label: Text('Response')),
+          ],
+          rows: entries.map((entry) {
+            return DataRow(cells: [
+              DataCell(Text(entry.timestamp.toLocal().toString())),
+              DataCell(Text(entry.thought)),
+              DataCell(Text(entry.distortions.join(', '))),
+              DataCell(Text(entry.response)),
+            ]);
+          }).toList(),
+        ),
+      ),
     );
   }
-} 
+}
+
+
 
 class ThoughtEntryPage extends StatefulWidget {
   const ThoughtEntryPage({super.key});
@@ -145,10 +171,18 @@ class _ThoughtEntryPageState extends State<ThoughtEntryPage> {
                   final thought = thoughtController.text;
                   final response = responseController.text;
                   final tags = selectedDistortions.toList();
+                  final timestamp = DateTime.now();
 
+                  entries.add(ThoughtEntry(
+                    thought: thought,
+                    distortions: tags,
+                    response: response,
+                    timestamp: timestamp,
+                  ));
                   print('Thought: $thought');
                   print('Distortions: $tags');
                   print('Response: $response');
+                  print('timestamp: $timestamp');  
 
                   thoughtController.clear();
                   responseController.clear();
