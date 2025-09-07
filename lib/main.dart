@@ -32,7 +32,7 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Mind Journal')),
+      appBar: AppBar(title: const Text('Mind J ournal')),
       body: Column(
         children: [
           Expanded(
@@ -112,10 +112,15 @@ class _ThoughtEntryPageState extends State<ThoughtEntryPage> {
   final responseController = TextEditingController();
 
   final distortions = [
-    'Catastrophizing',
-    'Black-and-white thinking',
-    'Mind reading',
-    'Should statements',
+    'All-or-Nothing thinking',
+    'Overgeneralisation',
+    'Mental Filter',
+    'Disqualifying the Positive',
+    'Jumping to Conclusions',
+    'Magnification/Minimization',
+    'Emotional Reasoning',
+    'Should Statements',
+    'Labeling and Mislabeling', 
     'Personalization',
   ];
 
